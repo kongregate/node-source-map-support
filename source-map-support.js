@@ -181,7 +181,7 @@ retrieveMapHandlers.push(function(source) {
 
 function mapSourcePosition(position) {
   var sourceMap = sourceMapCache[position.source];
-  if (!sourceMap) {
+  if (!sourceMap && !position.source.match(/webpack:\/\//)) {
     // Call the (overrideable) retrieveSourceMap function to get the source map.
     var urlAndMap = retrieveSourceMap(position.source);
     if (urlAndMap) {
@@ -561,7 +561,7 @@ exports.resetRetrieveHandlers = function() {
 
   retrieveFileHandlers = originalRetrieveFileHandlers.slice(0);
   retrieveMapHandlers = originalRetrieveMapHandlers.slice(0);
-  
+
   retrieveSourceMap = handlerExec(retrieveMapHandlers);
   retrieveFile = handlerExec(retrieveFileHandlers);
 }
